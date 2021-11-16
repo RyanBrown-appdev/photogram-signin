@@ -67,14 +67,14 @@ class UsersController < ApplicationController
   def auth
     un = params.fetch("input_username")
     pw = params.fetch("input_password")
-    u1 = User.where({ :username => un}).at(0)
+    @u1 = User.where({ :username => un}).at(0)
 
-    if u1 == nil
+    if @u1 == nil
       redirect_to("/user_sign_in", { :alert => "No one by that name round these parts"})
     else
-      if u1.authenticate(pw)
-        session.store(:user_id, user.id)
-        redirect_to("/", {:notice => "Welcome back, " + user.username})
+      if @u1.authenticate(pw)
+        session.store(:user_id, @u1.id)
+        redirect_to("/", {:notice => "Welcome back, " + @u1.username})
       else
         redirect_to("/user_sign_in", {:alert => "Nice Try"})
       end
